@@ -1,17 +1,18 @@
-package application
+package application_test
 
 import (
 	"testing"
 
 	"github.com/google/uuid"
+	"github.com/lucasmdomingues/hexagonal/application"
 	"github.com/stretchr/testify/require"
 )
 
 func TestProduct_Enable(t *testing.T) {
-	product := Product{
+	product := application.Product{
 		Name:   "Hello",
 		Price:  10,
-		Status: DISABLED,
+		Status: application.DISABLED,
 	}
 
 	err := product.Enable()
@@ -23,10 +24,10 @@ func TestProduct_Enable(t *testing.T) {
 }
 
 func TestProduct_Disable(t *testing.T) {
-	product := Product{
+	product := application.Product{
 		Name:   "Hello",
 		Price:  0,
-		Status: DISABLED,
+		Status: application.DISABLED,
 	}
 
 	err := product.Disable()
@@ -38,11 +39,11 @@ func TestProduct_Disable(t *testing.T) {
 }
 
 func TestProduct_IsValid(t *testing.T) {
-	product := Product{
+	product := application.Product{
 		ID:     uuid.New().String(),
 		Name:   "Hello",
 		Price:  10,
-		Status: DISABLED,
+		Status: application.DISABLED,
 	}
 
 	_, err := product.IsValid()
@@ -52,7 +53,7 @@ func TestProduct_IsValid(t *testing.T) {
 	_, err = product.IsValid()
 	require.EqualError(t, err, "status must be enaled or disabled")
 
-	product.Status = ENABLED
+	product.Status = application.ENABLED
 	product.Price = -10
 	_, err = product.IsValid()
 	require.EqualError(t, err, "price must be greater or equal than zero")
@@ -65,7 +66,7 @@ func TestProduct_IsValid(t *testing.T) {
 
 func TestProduct_GetID(t *testing.T) {
 	productID := uuid.New().String()
-	product := Product{
+	product := application.Product{
 		ID: productID,
 	}
 
@@ -75,7 +76,7 @@ func TestProduct_GetID(t *testing.T) {
 
 func TestProduct_GetName(t *testing.T) {
 	productName := "test"
-	product := Product{
+	product := application.Product{
 		Name: productName,
 	}
 
@@ -85,7 +86,7 @@ func TestProduct_GetName(t *testing.T) {
 
 func TestProduct_GetProduct(t *testing.T) {
 	productPrice := 10.0
-	product := Product{
+	product := application.Product{
 		Price: productPrice,
 	}
 
@@ -94,8 +95,8 @@ func TestProduct_GetProduct(t *testing.T) {
 }
 
 func TestProduct_GetStatus(t *testing.T) {
-	productStatus := ENABLED
-	product := Product{
+	productStatus := application.ENABLED
+	product := application.Product{
 		Status: productStatus,
 	}
 

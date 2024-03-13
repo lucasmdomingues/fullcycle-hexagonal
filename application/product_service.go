@@ -1,17 +1,43 @@
 package application
 
-import "log"
-
 type ProductService struct {
 	Persistence ProductPersistenceInterface
 }
 
 func (s *ProductService) Get(id string) (ProductInterface, error) {
-	product, err := s.Persistence.Get(id)
+	return s.Persistence.Get(id)
+}
+
+func (s *ProductService) Create(name string, price float64) (ProductInterface, error) {
+	product := NewProduct()
+	product.Name = name
+	product.Price = price
+
+	_, err := product.IsValid()
 	if err != nil {
-		log.Print("failed to get product", err)
 		return nil, err
 	}
 
-	return product, nil
+	result, err := s.Persistence.Save(product)
+	return result, err
+}
+
+func (s *ProductService) Enable(product ProductInterface) (ProductInterface, error) {
+	err := product.Enable()
+	if err != nil {
+		return nil, err
+	}
+
+	result, err := s.Persistence.Save(product)
+	return result, err
+}
+
+func (s *ProductService) Disable(product ProductInterface) (ProductInterface, error) {
+	err := product.Disable()
+	if err != nil {
+		return nil, err
+	}
+
+	result, err := s.Persistence.Save(product)
+	return result, err
 }
