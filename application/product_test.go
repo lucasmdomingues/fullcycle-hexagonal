@@ -60,7 +60,7 @@ func TestProduct_IsValid(t *testing.T) {
 	product.ID = "asd"
 	product.Price = 10
 	_, err = product.IsValid()
-	require.EqualError(t, err, "ID: asd does not validate as uuidv4")
+	require.EqualError(t, err, "uuid4: ID value should be a UUID4 string")
 }
 
 func TestProduct_GetID(t *testing.T) {

@@ -3,18 +3,14 @@ package application
 import (
 	"errors"
 
-	"github.com/asaskevich/govalidator"
 	"github.com/google/uuid"
+	"github.com/gookit/validate"
 )
 
 const (
 	ENABLED  = "enabled"
 	DISABLED = "disabled"
 )
-
-func init() {
-	govalidator.SetFieldsRequiredByDefault(true)
-}
 
 type ProductInterface interface {
 	IsValid() (bool, error)
@@ -27,10 +23,10 @@ type ProductInterface interface {
 }
 
 type Product struct {
-	ID     string  `valid:"uuidv4"`
-	Name   string  `valid:"required"`
-	Price  float64 `valid:"float,optional"`
-	Status string  `valid:"required"`
+	ID     string  `validate:"uuid4"`
+	Name   string  `validate:"required"`
+	Price  float64 `validate:"float"`
+	Status string  `validate:"required"`
 }
 
 func NewProduct() *Product {
@@ -53,7 +49,7 @@ func (p *Product) IsValid() (bool, error) {
 		return false, errors.New("price must be greater or equal than zero")
 	}
 
-	_, err := govalidator.ValidateStruct(p)
+	err := validate.Struct(p).ValidateErr()
 	if err != nil {
 		return false, err
 	}
