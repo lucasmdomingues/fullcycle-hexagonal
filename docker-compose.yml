@@ -7,4 +7,4 @@ services:
     ports:
       - "9000:9000"
     volumes:
-      - .:/go/src/
+      - .:/usr/src/app

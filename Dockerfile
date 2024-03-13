@@ -1,12 +1,11 @@
 FROM golang:1.21
 
-WORKDIR /go/src
-ENV PATH="/go/bin:${PATH}"
+WORKDIR /usr/src/app
 
-COPY go.mod ./
-RUN go mod download
+COPY go.mod go.sum ./
+RUN go mod download && go mod verify
 
-RUN go install github.com/golang/mock/mockgen@v1.6.0
+RUN go install go.uber.org/mock/mockgen@latest
 RUN go install github.com/spf13/cobra-cli@latest
 
 RUN apt-get update
