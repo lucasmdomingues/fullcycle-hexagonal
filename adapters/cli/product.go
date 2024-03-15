@@ -54,7 +54,8 @@ func Run(
 			return message, err
 		}
 
-		message = fmt.Sprintf("%+v", product)
+		message = fmt.Sprintf("Product ID: %s Name:%s Price:%f Status:%s", product.GetID(),
+			product.GetName(), product.GetPrice(), product.GetStatus())
 	}
 
 	return message, nil

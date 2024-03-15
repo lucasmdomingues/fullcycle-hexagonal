@@ -43,7 +43,7 @@ func createTable(db *sql.DB) {
 
 func createProduct(db *sql.DB) {
 	query := `INSERT INTO products(id,name,price,status) 
-		VALUES('7403a96e-c4cf-4827-80fc-2141e5185a35','Product 1', 10.0, 'DISABLED');`
+		VALUES('7403a96e-c4cf-4827-80fc-2141e5185a35','Product 1', 10.0, 'disabled');`
 
 	stmt, err := db.Prepare(query)
 	if err != nil {
