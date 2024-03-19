@@ -1,10 +1,11 @@
 /*
 Copyright © 2024 NAME HERE <EMAIL ADDRESS>
-
 */
 package main
 
-import "github.com/lucasmdomingues/hexagonal/cmd"
+import (
+	"github.com/lucasmdomingues/hexagonal/cmd"
+)
 
 func main() {
 	cmd.Execute()

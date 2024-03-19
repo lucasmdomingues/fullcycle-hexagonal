@@ -1,13 +1,30 @@
 /*
 Copyright © 2024 NAME HERE <EMAIL ADDRESS>
-
 */
 package cmd
 
 import (
-	"fmt"
+	"database/sql"
+	"log"
 
+	"github.com/lucasmdomingues/hexagonal/adapters/cli"
+	productdb "github.com/lucasmdomingues/hexagonal/adapters/db"
+	"github.com/lucasmdomingues/hexagonal/application"
 	"github.com/spf13/cobra"
+
+	_ "github.com/mattn/go-sqlite3"
+)
+
+var (
+	db  *sql.DB
+	err error
+)
+
+var (
+	action       string
+	productID    string
+	productName  string
+	productPrice float64
 )
 
 // cliCmd represents the cli command
@@ -21,12 +38,36 @@ Cobra is a CLI library for Go that empowers applications.
 This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("cli called")
+		log.Println("args", args)
+		defer db.Close()
+
+		productDB := productdb.NewProductDB(db)
+		productService := application.NewProductService(productDB)
+
+		result, err := cli.Run(productService, action, productID, productName, productPrice)
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		log.Println(result)
 	},
 }
 
 func init() {
+	log.Println("running cli command...")
+
 	rootCmd.AddCommand(cliCmd)
+
+	cliCmd.Flags().StringVarP(&action, "action", "a", "enable", "Enable or Disable a product")
+	cliCmd.Flags().StringVarP(&productID, "id", "i", "", "Product ID")
+	cliCmd.Flags().StringVarP(&productName, "name", "n", "", "Product name")
+	cliCmd.Flags().Float64VarP(&productPrice, "price", "p", 0, "Product price")
+
+	db, err = sql.Open("sqlite3", "./db.sqlite")
+	if err != nil {
+		log.Fatal(err)
+	}
+	log.Println("db connected...")
 
 	// Here you will define your flags and configuration settings.
 

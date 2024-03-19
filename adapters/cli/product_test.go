@@ -34,23 +34,23 @@ func TestRun(t *testing.T) {
 	service.EXPECT().Disable(productMock).Return(productMock, nil).AnyTimes()
 
 	// CREATE
-	message, err := cli.Run(service, "create", productID, productName, productPrice, productStatus)
+	message, err := cli.Run(service, "create", productID, productName, productPrice)
 	require.NoError(t, err)
 	require.Equal(t, fmt.Sprintf("Product ID %s with name %s has been created with price %f and status %s",
 		productMock.GetID(), productMock.GetName(), productMock.GetPrice(), productMock.GetStatus()), message)
 
 	// ENABLE
-	message, err = cli.Run(service, "enable", productID, productName, productPrice, productStatus)
+	message, err = cli.Run(service, "enable", productID, productName, productPrice)
 	require.NoError(t, err)
 	require.Equal(t, fmt.Sprintf("Product %s has been enabled", productMock.GetName()), message)
 
 	// DISABLE
-	message, err = cli.Run(service, "disable", productID, productName, productPrice, productStatus)
+	message, err = cli.Run(service, "disable", productID, productName, productPrice)
 	require.NoError(t, err)
 	require.Equal(t, fmt.Sprintf("Product %s has been disabled", productMock.GetName()), message)
 
 	// GET
-	message, err = cli.Run(service, "get", productID, productName, productPrice, productStatus)
+	message, err = cli.Run(service, "get", productID, productName, productPrice)
 	require.NoError(t, err)
 	require.Equal(t, fmt.Sprintf("Product ID: %s Name:%s Price:%f Status:%s", productMock.GetID(),
 		productMock.GetName(), productMock.GetPrice(), productMock.GetStatus()), message)

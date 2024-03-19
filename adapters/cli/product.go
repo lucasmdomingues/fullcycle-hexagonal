@@ -11,7 +11,6 @@ func Run(
 	action string,
 	productID, productName string,
 	productPrice float64,
-	productStatus string,
 ) (string, error) {
 	var message string
 
@@ -22,7 +21,7 @@ func Run(
 			return message, err
 		}
 
-		message = fmt.Sprintf("Product ID %s with name %s has been created with price %f and status %s",
+		message = fmt.Sprintf("Product ID '%s' with name %s has been created with price %f and status %s",
 			product.GetID(), product.GetName(), product.GetPrice(), product.GetStatus())
 	case "enable":
 		product, err := service.Get(productID)
@@ -35,7 +34,7 @@ func Run(
 			return message, err
 		}
 
-		message = fmt.Sprintf("Product %s has been enabled", product.GetName())
+		message = fmt.Sprintf("Product '%s' has been enabled", product.GetName())
 	case "disable":
 		product, err := service.Get(productID)
 		if err != nil {
@@ -47,7 +46,7 @@ func Run(
 			return message, err
 		}
 
-		message = fmt.Sprintf("Product %s has been disabled", product.GetName())
+		message = fmt.Sprintf("Product '%s' has been disabled", product.GetName())
 	default:
 		product, err := service.Get(productID)
 		if err != nil {
